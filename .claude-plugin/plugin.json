@@ -11,10 +11,9 @@
     "spaced-repetition",
     "notes"
   ],
-  "hooks": "./hooks/hooks.json",
   "author": {
-    "name": "devandbenz",
-    "url": "https://github.com/devandbenz"
+    "name": "devanbenz",
+    "url": "https://github.com/devanbenz"
   },
-  "repository": "https://github.com/devandbenz/omnibus"
+  "repository": "https://github.com/devanbenz/omnibus"
 }
