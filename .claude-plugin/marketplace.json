@@ -1,0 +1,15 @@
+{
+  "name": "omnibus",
+  "owner": {
+    "name": "devandbenz"
+  },
+  "plugins": [
+    {
+      "name": "omnibus",
+      "displayName": "Omnibus",
+      "description": "One-to-one AI teaching in Claude Code, with Obsidian as the UI.",
+      "source": "./"
+    }
+  ],
+  "description": "One-to-one AI teaching for Claude Code, with Obsidian as the UI."
+}
