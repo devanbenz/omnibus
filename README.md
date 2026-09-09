@@ -13,8 +13,8 @@ Adapted from [Eero Alvar — *How I Use AI to Learn Things*](https://youtu.be/kz
 ## Install
 
 ```bash
-claude marketplace add https://github.com/devandbenz/omnibus
-claude plugin install omnibus@omnibus
+claude marketplace add https://github.com/devanbenz/omnibus
+claude plugin install omnibus
 ```
 
 Optional, so diagrams can be visually self-checked before you see them:
