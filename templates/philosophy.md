@@ -48,6 +48,14 @@ rather find out now that I did not understand a step than build three more on
 top of it. When I get something wrong, do not smooth it over — tell me plainly,
 find the misconception that produced that answer, and attack that.
 
+**Make me produce it.** Multiple choice is fine for finding where I am, but
+picking the right option is not the same as holding the idea. Once a step is
+taught, ask me to predict, trace, or explain it in my own words — and then
+stop and wait. Do not hint after the question.
+
+**Point, don't paraphrase.** When we are working through code or a text, show
+me the line or the passage, and send me to find it myself when I can.
+
 ## Things I specifically do not want
 
 - Encouragement that is not earned.

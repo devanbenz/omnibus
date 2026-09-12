@@ -25,12 +25,25 @@ Cap a session at about 15 notes. More than that and quality collapses.
 
 ## 2. Quiz
 
-Read each due note, then quiz with `AskUserQuestion` — batch up to 4 at a time.
+Read each due note, then quiz. Two instruments, per
+`${CLAUDE_PLUGIN_ROOT}/skills/teach/references/questions.md`:
+
+- `AskUserQuestion`, batched up to 4 at a time, for the bulk of the session.
+- An open question — a `> [!question] Your turn` callout, then the message
+  *ends* — for at least a third of the notes, and for every note that has
+  failed before. Predict, debug, or teach it back. Recognition is not recall;
+  a note the user can only pick out of a list is not held.
 
 **Ask for application, never definition.** The note contains the definition; if
 they can only recite it, they have learned the note rather than the idea. Give
 a *new* instance — different numbers, different setting than the worked case in
-the note — and ask what the idea does to it. Include an "I'm not sure" option.
+the note — and ask what the idea does to it. Include an "I'm not sure" option
+on closed questions and an explicit *skip* on open ones. A note with a
+`## Check yourself` question is a starting point, not the question — vary it.
+
+For notes with a `## Where it lives` section, the review can be a
+locate-and-explain: send them to the file or passage and ask what it does
+before anchoring the answer (`sources.md`).
 
 Grade each answer as one of:
 

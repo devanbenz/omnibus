@@ -26,8 +26,8 @@ this leads to...". End the message and let them absorb it.
 
 ## Quiz to lock in
 
-After each node — or every second node for short ones — quiz with
-`AskUserQuestion`. This is not optional, and it matters for three reasons:
+After each node — or every second node for short ones — check it. This is not
+optional, and it matters for three reasons:
 
 - It is very easy to gaslight yourself into believing you understood something,
   especially when learning from an AI. A quiz is honest feedback.
@@ -36,6 +36,21 @@ After each node — or every second node for short ones — quiz with
 
 Make it an application, not a definition check. Give them a new instance of the
 idea they just met and ask what it does.
+
+**Choose the instrument** (`questions.md`). `AskUserQuestion` when you need to
+know *which* misconception they hold and speed matters. An open question —
+predict, trace, debug, generate-then-compare — when they should *produce* the
+idea: roughly one per node, always at the point where the node turns from
+recognised into held. After a cluster of nodes, a teach-it-back. An open
+question is a `> [!question] Your turn` callout and then the message ends;
+nothing after it, no hints, no examples.
+
+**Source-bound nodes point.** When the node lives in a codebase or a text, the
+step anchors its evidence with `anchor.py code` / `anchor.py quote`
+(`sources.md`), and the check sends the user to a location: *find where this
+is handled — what does the line after the early return do?* Prefer sending
+them over quoting when the file is small enough to navigate; quote when it
+is not, or when they are stuck.
 
 **When they get it wrong, do not push forward.** The node is not learned, and
 every node after it depends on this one. Diagnose which misconception produced
@@ -75,7 +90,9 @@ carry on in prose — a dead illustrator never blocks the lesson.
   `style X fill:#2d6a4f,color:#fff` for completed nodes).
 - Write an atomic `Concepts/<Idea>.md` note for each node that locks in, with
   `[[wikilinks]]` to its prerequisites — see
-  the `vault-conventions` skill.
+  the `vault-conventions` skill. Fold the open question that locked it in,
+  with a model answer, into `## Check yourself`; for source-bound nodes add a
+  `## Where it lives` section holding the anchors.
 - Concept notes carry a `next_review` date so `/recall` can bring them back.
 
 ## Closing a session

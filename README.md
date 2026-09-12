@@ -42,8 +42,13 @@ it fill in as you go.
 | Command | What it does |
 |---|---|
 | `/teach <topic>` | The full loop: probe → plan → teach |
+| `/exercise [path \| url \| topic]` | One 10–15 minute open-response exercise, anchored to lines and passages |
 | `/recall [topic]` | Spaced-repetition review of concepts that are due |
 | `/link [title]` | Mirror any other session into a vault note |
+
+The topic can be a thing as well as a subject: `/teach src/raft/` or
+`/teach https://raft.github.io/raft.pdf` teaches *that* codebase or *that*
+paper, with every claim pinned to the line or paragraph it comes from.
 
 ## The loop
 
@@ -56,9 +61,42 @@ here.
 path from your edge to the goal is reasoned out, then drawn as a mermaid graph
 in your note.
 
-**Teach** — one new idea per message, never more. A quiz after each step; miss
+**Teach** — one new idea per message, never more. A check after each step; miss
 one and it backs up and re-teaches rather than pushing on. Diagrams are drawn
 by a subagent that renders and *looks at* its own SVG before returning it.
+
+## Two kinds of question
+
+Multiple choice finds the edge fast, but picking the right option is not the
+same as holding the idea. So the probe uses closed questions to bisect and
+**open questions** to confirm, and the teach phase asks you to *produce* each
+idea once it has been taught: predict what a change does, trace a request
+through the code, debug a planted fault, sketch a design before seeing the
+real one, or explain the idea back as if to a new colleague. The question is
+posed and the message ends — no hints after it, no example answers. A wrong
+prediction is the most useful thing you can give it.
+
+The exercise shapes and the pause-for-input discipline are adapted from
+Dr Cat Hicks's [learning-opportunities](https://github.com/DrCatHicks/learning-opportunities)
+(CC-BY-4.0), which grounds them in the research on generation, pre-testing
+and retrieval practice. `/exercise` runs one of them on its own — on a
+codebase, a text, or whatever you just built.
+
+## Anchored to the source
+
+When the subject is a codebase, a paper, a post or a chapter, every claim
+points at where it comes from and every question sends you somewhere to look:
+
+- Code is quoted with a `path:line-line` caption, clickable in the terminal,
+  plus a permalink to the commit, clickable in Obsidian.
+- Texts are imported into `Sources/` in the vault and quoted with Obsidian
+  block links — `[[Sources/Raft#^4f2a1c]]` previews the exact paragraph on
+  hover. PDFs get one heading per page, so `[[Sources/Raft#Page 7]]` works too.
+- Concept notes for source-bound ideas carry a *Where it lives* section, so
+  the graph view connects ideas to the places they came from.
+
+The anchoring is done by `scripts/anchor.py`; `pdftotext` (poppler) is optional
+and only needed to import PDFs.
 
 ## Your vault
 
@@ -67,6 +105,7 @@ Created on first run, all plain markdown:
 ```
 Sessions/      one note per session, written live as you go
 Concepts/      atomic notes, one idea each — the durable layer
+Sources/       imported papers, posts and chapters that lessons anchor into
 Attachments/   diagrams
 Reviews/       review logs
 .learning/philosophy.md    ← yours
@@ -105,3 +144,5 @@ claude plugin validate ./omnibus
 ```
 
 MIT. Method credit: [Eero Alvar](https://www.youtube.com/@EeroAlvar).
+Exercise shapes adapted from [learning-opportunities](https://github.com/DrCatHicks/learning-opportunities)
+by Dr Cat Hicks, CC-BY-4.0.

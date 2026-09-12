@@ -2,7 +2,7 @@
   "name": "omnibus",
   "displayName": "Omnibus",
   "description": "One-to-one AI teaching. Probes the edge of your understanding, plans a path, teaches one reasoning step at a time \u2014 mirrored live into your Obsidian vault.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "keywords": [
     "learning",

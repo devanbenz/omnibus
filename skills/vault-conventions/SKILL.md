@@ -7,6 +7,7 @@ description: Conventions for notes in this learning vault - folder layout, front
 
     Sessions/     one note per learning session, written live by the Stop hook
     Concepts/     atomic notes, one idea each - the durable layer
+    Sources/      imported texts (papers, posts, chapters) that lessons anchor into
     Attachments/  SVGs and images, embedded with ![[...]]
     Reviews/      spaced-repetition logs
     .learning/    machine state - never edit by hand
@@ -21,7 +22,13 @@ This vault is read in Obsidian. That constrains syntax:
 - Images and SVGs embed as `![[Attachments/name.svg]]`, not markdown image
   syntax.
 - Callouts (`> [!note]`, `> [!question]`, `> [!warning]`) render natively and
-  are worth using for quizzes, warnings, and asides.
+  are worth using for quizzes, warnings, and asides. Fixed meanings:
+  `> [!question] Your turn` is an open question the user answers in prose;
+  `> [!example]` is a code anchor; `> [!quote]` is a text anchor;
+  `> [!success]- Answer` is a collapsed model answer.
+- Block links `[[Sources/Note#^id]]` and heading links `[[Sources/Note#Page 7]]`
+  point into a source; hovering previews the block. `anchor.py` assigns the
+  ids — do not hand-write `^id` markers.
 
 ## Concept notes
 
@@ -59,6 +66,9 @@ $\alpha = 3\,dx - 2\,dy$, ... (actual numbers, worked through)
 ## Leads to
 [[k-form]] · [[Exterior derivative]]
 
+## Where it lives
+(source-bound ideas only) `[[Sources/Raft#^4f2a1c]]` · `src/raft/log.py:88-104`
+
 ## Check yourself
 A question whose answer requires *using* the idea, with the answer folded into
 a `> [!success]- Answer` collapsible callout.
@@ -74,6 +84,15 @@ Rules:
 - **Link generously.** `[[Prerequisite]]` links upward and `[[Leads to]]` links
   downward are what make the graph view worth looking at. A link to a note that
   does not exist yet is fine — it marks the next thing worth writing.
+
+## Source notes
+
+One note per imported text, written by `anchor.py import` into `Sources/`:
+frontmatter `type: source`, `title`, `kind` (article, paper, chapter, docs),
+`origin` (URL or path), `imported`. The body is the text itself, headings
+preserved, one paragraph per block, so that `anchor.py quote` can attach a
+`^id` to any paragraph. Treat the body as read-only apart from those ids.
+Code is not imported — it is anchored in place by path and permalink.
 
 ## Session notes
 
