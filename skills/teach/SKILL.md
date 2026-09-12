@@ -46,7 +46,21 @@ render there. Tell the user the path in one line, then begin.
 
 Then spend one quiet moment on prior context: check `Concepts/` and recent
 `Sessions/` for what this user has already been taught. Anything already
-mastered is a strand you do **not** need to probe from scratch.
+mastered is a strand you do **not** need to probe from scratch. If the
+session continues earlier work, open with a retrieval check-in (see
+`references/questions.md`) before probing anything new.
+
+**If the topic is a codebase, a paper, a post, a chapter, or any specific
+artifact**, read `references/sources.md` now and ingest the source before the
+probe. Every claim about a source is anchored to a line or passage; every
+question about it points somewhere the user can go and look.
+
+## Questions
+
+Read `references/questions.md` once, before the probe. Two instruments:
+`AskUserQuestion` for fast bisection, and open questions — a
+`> [!question] Your turn` callout, then the message *ends* — for anything
+the user should produce rather than recognise. Both phases use both.
 
 ## Phase 1 — probe
 

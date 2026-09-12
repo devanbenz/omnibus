@@ -49,7 +49,14 @@ fenced ```mermaid block. Obsidian renders it natively:
 
 Mark known roots in one colour and the goal in another. Keep node labels to a
 short phrase. Avoid `$` inside mermaid labels — mermaid does not render LaTeX;
-use plain unicode there.
+use plain unicode there. For source-bound topics a node may carry a short
+location in plain text (`"Conflict truncation (log.py:96)"`); no `[[links]]`
+inside mermaid.
+
+While planning, decide per node how it will be checked — a closed quiz, an
+open question, or a teach-it-back after a cluster (`questions.md`). Nodes
+whose whole content is a *why* get an open question; nodes about a source
+get a locate-and-explain.
 
 **The graph is not decoration.** It exists for two reasons: it shows the user
 the shape of what is coming, and — the real reason — it forces you to reason

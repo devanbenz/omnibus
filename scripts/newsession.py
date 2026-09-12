@@ -22,7 +22,7 @@ def slug(text):
 
 def bootstrap(root):
     """Create the vault layout, and seed the philosophy file if absent."""
-    for folder in ("Sessions", "Concepts", "Attachments", "Reviews"):
+    for folder in ("Sessions", "Concepts", "Sources", "Attachments", "Reviews"):
         (root / folder).mkdir(parents=True, exist_ok=True)
 
     learning = root / ".learning" / "state"

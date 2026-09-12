@@ -3,9 +3,17 @@
 **Goal:** a detailed map of where this mind's understanding ends, on every
 strand the lesson will depend on. Not a vibe. A map.
 
-**Your quiz tool is `AskUserQuestion`.** It renders a real picker — up to 4
-questions per call, 2–4 options each, plus a free-text "Other". Never write
-"A) B) C) D)" as prose in a message; that is not a quiz, it is a wall of text.
+**Your bisection tool is `AskUserQuestion`.** It renders a real picker — up
+to 4 questions per call, 2–4 options each, plus a free-text "Other". Never
+write "A) B) C) D)" as prose in a message; that is not a quiz, it is a wall of
+text.
+
+**Your confirmation tool is the open question** (`questions.md`): once you
+think you have found a strand's edge, ask one short open question there —
+predict, locate, or explain — and end the message. Recognising the right
+option is much easier than producing it, so an all-closed probe overestimates
+the user. One or two open questions per strand, at the edge, is enough; do not
+open-question your way down a whole ladder.
 
 ## Method: binary-search the edge, strand by strand
 
@@ -44,6 +52,11 @@ questions per call, 2–4 options each, plus a free-text "Other". Never write
   rather than continuing your original ladder.
 - **Take free text seriously.** If the user types their reasoning into "Other",
   that is higher-resolution data than any option click. Read it closely.
+- **Source-bound topics probe by location.** For a codebase or a text, the
+  sharpest probe is "where": *which function would you change to make X
+  happen?* or *which paragraph of the paper does this line implement?* Ask it
+  as an open question, then anchor the real answer with `anchor.py` so the
+  note holds it (`sources.md`).
 
 ## Closing the phase
 
