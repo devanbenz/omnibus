@@ -1,6 +1,7 @@
 # Omnibus
 
-A Claude Code plugin that teaches you things one-to-one, using Obsidian as the UI.
+A Claude Code / Oh My Pi plugin that teaches you things one-to-one, using
+Obsidian as the UI — and lets you teach it back to a student who knows nothing.
 
 It measures what you actually understand, plans a path from there to your goal,
 then walks it one reasoning step at a time — quizzing as it goes, and writing
@@ -12,10 +13,25 @@ Adapted from [Eero Alvar — *How I Use AI to Learn Things*](https://youtu.be/kz
 
 ## Install
 
+Claude Code:
+
 ```bash
 claude marketplace add https://github.com/devanbenz/omnibus
 claude plugin install omnibus
 ```
+
+Oh My Pi:
+
+```bash
+omp plugin marketplace add https://github.com/devanbenz/omnibus
+omp plugin install omnibus@omnibus
+```
+
+Both harnesses run the same skills, agents and scripts. Claude Code mirrors
+sessions through the `hooks.json` Stop hook; omp through the
+`hooks/post/omnibus.ts` extension, which also exports `CLAUDE_PLUGIN_ROOT`
+so the scripts resolve identically. Skills are `/learn` in Claude Code and
+`/skill:learn` in omp.
 
 Optional, so diagrams can be visually self-checked before you see them:
 
@@ -25,14 +41,14 @@ sudo apt install librsvg2-bin      # or: brew install librsvg
 
 ## Use
 
-Any folder can be a vault. Open one in Claude Code and Obsidian side by side:
+Any folder can be a vault. Open one in your harness and Obsidian side by side:
 
 ```bash
-mkdir ~/vault && cd ~/vault && claude
+mkdir ~/vault && cd ~/vault && claude    # or: omp
 ```
 
 ```
-/teach differential forms
+/learn differential forms
 ```
 
 Approve the hook when prompted. The folder structure is created on first run,
@@ -41,13 +57,14 @@ it fill in as you go.
 
 | Command | What it does |
 |---|---|
-| `/teach <topic>` | The full loop: probe → plan → teach |
+| `/learn <topic>` | The full loop: probe → plan → teach |
+| `/teach <topic>` | You teach; it is a student who knows nothing and asks until it does |
 | `/exercise [path \| url \| topic]` | One 10–15 minute open-response exercise, anchored to lines and passages |
 | `/recall [topic]` | Spaced-repetition review of concepts that are due |
 | `/link [title]` | Mirror any other session into a vault note |
 
-The topic can be a thing as well as a subject: `/teach src/raft/` or
-`/teach https://raft.github.io/raft.pdf` teaches *that* codebase or *that*
+The topic can be a thing as well as a subject: `/learn src/raft/` or
+`/learn https://raft.github.io/raft.pdf` teaches *that* codebase or *that*
 paper, with every claim pinned to the line or paragraph it comes from.
 
 ## The loop
@@ -81,6 +98,24 @@ Dr Cat Hicks's [learning-opportunities](https://github.com/DrCatHicks/learning-o
 (CC-BY-4.0), which grounds them in the research on generation, pre-testing
 and retrieval practice. `/exercise` runs one of them on its own — on a
 codebase, a text, or whatever you just built.
+
+## Teach it back
+
+`/teach <topic>` turns the table. You explain, in plain prose, to a student
+that has had all its knowledge of the topic removed: it knows only what you
+have said in that session. It asks what a real student would ask — *why*,
+*show me a case*, *does that still hold if…*, *you haven't told me what that
+word means* — tries to use what you have given it and shows its working, and
+reflects your explanation back in your own terms so you can see what landed.
+It cannot fill your gaps, so every gap surfaces as a question. It also cannot
+correct you from outside; it can only object when something contradicts what
+you said earlier or fails on your own example.
+
+Say **done** and it steps out of the role, knowledge restored, and debriefs:
+what landed, where it got stuck and what was missing each time, what was
+wrong or imprecise, what a full treatment would have covered, and what to
+`/learn` next. If the topic has concept notes in the vault, the lesson grades
+them for `/recall`.
 
 ## Anchored to the source
 
@@ -137,10 +172,15 @@ Difficulty in the ideas is the point. Difficulty in logistics is waste.
 ## Local development
 
 ```bash
-git clone https://github.com/devandbenz/omnibus
+git clone https://github.com/devanbenz/omnibus
+
+# Claude Code
 claude marketplace add ./omnibus
 claude plugin install omnibus@omnibus
 claude plugin validate ./omnibus
+
+# Oh My Pi - load the working tree directly, no install step
+omp --plugin-dir ./omnibus
 ```
 
 MIT. Method credit: [Eero Alvar](https://www.youtube.com/@EeroAlvar).

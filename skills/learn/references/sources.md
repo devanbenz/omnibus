@@ -11,7 +11,7 @@ it; the user who read your summary of it does not.
 
 ## Recognise the case
 
-The topic is source-bound when the `/teach` or `/exercise` argument is, or
+The topic is source-bound when the `/learn` or `/exercise` argument is, or
 names:
 
 - a path or repository (`src/`, `this repo`, `the auth module`)

@@ -1,6 +1,6 @@
 ---
 name: link
-description: Bind the current Claude Code session to an Obsidian note so the conversation is mirrored into it live. Use when the user wants to log, mirror, or capture an ad-hoc session into the vault outside a /teach flow.
+description: Bind the current session to an Obsidian note so the conversation is mirrored into it live. Use when the user wants to log, mirror, or capture an ad-hoc session into the vault outside a /learn or /teach flow.
 argument-hint: [note title]
 disable-model-invocation: true
 ---

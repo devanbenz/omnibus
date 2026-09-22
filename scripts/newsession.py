@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-"""Create a learning-session note and bind it to the running session.
+"""Create a session note and bind it to the running session.
 
     python3 scripts/newsession.py "differential forms"
+    python3 scripts/newsession.py --type teaching "differential forms"
 
 Bootstraps the vault folders on first run, seeds the user-owned learning
 philosophy from the plugin template, then prints the note path. Everything the
 session says from here on is mirrored into that note by mdlog.py.
 """
+import argparse
 import datetime as dt
 import os
 import re
 import sys
 from pathlib import Path
+
+# note type -> (opening phase, first heading, goal callout title)
+KINDS = {
+    "learning": ("probe", "## Probe", "Goal"),
+    "teaching": ("lesson", "## Lesson", "Teaching"),
+}
 
 
 def slug(text):
@@ -38,11 +46,13 @@ def bootstrap(root):
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("usage: newsession.py <topic>", file=sys.stderr)
-        return 1
+    parser = argparse.ArgumentParser(prog="newsession.py")
+    parser.add_argument("--type", choices=KINDS, default="learning")
+    parser.add_argument("topic", nargs="+")
+    args = parser.parse_args()
 
-    topic = " ".join(sys.argv[1:]).strip()
+    topic = " ".join(args.topic).strip()
+    phase, heading, callout = KINDS[args.type]
     root = Path(os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd())
     today = dt.date.today().isoformat()
 
@@ -60,13 +70,13 @@ def main():
         "---\n"
         f'topic: "{topic}"\n'
         f"date: {today}\n"
-        "type: learning-session\n"
-        "phase: probe\n"
+        f"type: {args.type}-session\n"
+        f"phase: {phase}\n"
         "tags: [learning/session]\n"
         "---\n\n"
         f"# {topic}\n\n"
-        f"> [!abstract] Goal\n> {topic}\n\n"
-        "## Probe\n",
+        f"> [!abstract] {callout}\n> {topic}\n\n"
+        f"{heading}\n",
         encoding="utf-8",
     )
 

@@ -2,7 +2,7 @@
 
 > [!important] This file is yours
 > This lives at `.learning/philosophy.md` in your vault, outside the plugin, so
-> plugin updates never touch it. `/teach` reads it every session and it
+> plugin updates never touch it. `/learn` reads it every session and it
 > **overrides** the plugin's defaults wherever the two disagree.
 >
 > What's below is a starting point. The probe and plan phases are largely

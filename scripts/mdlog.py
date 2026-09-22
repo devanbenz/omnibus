@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 """Stop hook: mirror the live session into a linked Obsidian note.
 
-This is the Claude Code equivalent of the `md-log` extension in the source
+This is the plugin's equivalent of the `md-log` extension in the source
 system. Obsidian becomes the UI: LaTeX renders, mermaid renders, SVGs embed,
 and every learning session leaves a persistent artifact behind.
+
+Two harnesses feed it the same way - a JSON payload on stdin:
+
+  Claude Code  hooks.json `Stop` hook   {session_id, cwd, transcript_path}
+               The transcript is Claude's JSONL; entries are read as-is.
+  Oh My Pi     hooks/post/omnibus.ts    {session_id, cwd, messages}
+               `messages` is omp's context list; `normalise_omp` maps it onto
+               the Claude entry shape so one renderer serves both.
 
 Binding a note to a session:
   A skill writes the note path into  .learning/state/pending-link
@@ -59,6 +67,58 @@ def is_human_turn(o):
     if isinstance(content, list):
         return any(b.get("type") == "text" and b.get("text", "").strip() for b in content)
     return False
+
+
+# --------------------------------------------------------------------------
+# Oh My Pi - map omp context messages onto the Claude transcript entry shape
+# --------------------------------------------------------------------------
+
+QUIZ_TOOLS = ("AskUserQuestion", "ask")  # Claude Code, Oh My Pi
+
+
+def omp_ask_answers(details):
+    """{question: answer} from an omp `ask` tool result's structured details."""
+    if not isinstance(details, dict):
+        return {}
+    results = details.get("results")
+    if not isinstance(results, list):
+        results = [details]
+    picked = {}
+    for r in results:
+        if not isinstance(r, dict) or not r.get("question"):
+            continue
+        selected = r.get("selectedOptions") or []
+        answer = ", ".join(s for s in selected if isinstance(s, str)) or (r.get("customInput") or "")
+        if r.get("note"):
+            answer = f"{answer} — {r['note']}" if answer else r["note"]
+        if answer:
+            picked[r["question"]] = answer
+    return picked
+
+
+def normalise_omp(messages):
+    """One entry per omp message, so the cursor counts the same on both sides."""
+    entries = []
+    for m in messages:
+        role = m.get("role")
+        content = m.get("content")
+        if role == "user" and m.get("attribution", "user") == "user":
+            entries.append({"type": "user", "origin": {"kind": "human"}, "message": {"content": content}})
+        elif role == "assistant":
+            blocks = []
+            for b in content if isinstance(content, list) else []:
+                if b.get("type") == "toolCall":
+                    blocks.append({"type": "tool_use", "id": b.get("id"), "name": b.get("name"), "input": b.get("arguments") or {}})
+                else:
+                    blocks.append(b)
+            entries.append({"type": "assistant", "message": {"content": blocks}})
+        elif role == "toolResult" and m.get("toolName") in QUIZ_TOOLS:
+            answers = json.dumps(omp_ask_answers(m.get("details")))
+            block = {"type": "tool_result", "tool_use_id": m.get("toolCallId"), "content": answers}
+            entries.append({"type": "user", "message": {"content": [block]}})
+        else:
+            entries.append({"type": "skip"})
+    return entries
 
 
 def human_text(o):
@@ -175,7 +235,9 @@ def render(entries, start_index, answers):
 
         if is_human_turn(o):
             body = normalise_latex(human_text(o))
-            if body.startswith("<") or body.startswith("[Request interrupted"):
+            # Command invocations: Claude Code wraps them in <command-message>,
+            # omp records the typed `/skill:...` line. Neither belongs in the note.
+            if body.startswith(("<", "/", "[Request interrupted")):
                 continue
             quoted = "\n".join("> " + l for l in body.split("\n"))
             chunks.append(f"> [!tldr] You\n{quoted}\n")
@@ -190,7 +252,7 @@ def render(entries, start_index, answers):
                 txt = b.get("text", "").strip()
                 if txt:
                     chunks.append(normalise_latex(txt) + "\n")
-            elif kind == "tool_use" and b.get("name") == "AskUserQuestion":
+            elif kind == "tool_use" and b.get("name") in QUIZ_TOOLS:
                 chunks.append(
                     render_quiz(b.get("input") or {}, answers.get(b.get("id"), {}))
                 )
@@ -208,6 +270,7 @@ def main():
     root = vault_root(payload)
     session_id = payload.get("session_id") or "unknown"
     transcript = payload.get("transcript_path")
+    messages = payload.get("messages")
     state_dir = root / ".learning" / "state"
     state_file = state_dir / f"{session_id}.json"
     pending = state_dir / "pending-link"
@@ -219,7 +282,7 @@ def main():
         except (OSError, json.JSONDecodeError):
             state = None
 
-    # Claim a pending link written by the /teach skill this session.
+    # Claim a pending link written by a skill (/learn, /teach, /link) this session.
     if state is None and pending.exists():
         try:
             age = time.time() - pending.stat().st_mtime
@@ -233,11 +296,17 @@ def main():
     if state is None:
         return 0  # session isn't bound to a note - nothing to mirror
 
-    if not transcript or not os.path.exists(transcript):
+    if isinstance(messages, list):
+        entries = normalise_omp(messages)
+    elif transcript and os.path.exists(transcript):
+        entries = read_transcript(transcript)
+    else:
         return 0
 
-    entries = read_transcript(transcript)
     cursor = int(state.get("cursor") or 0)
+    if cursor > len(entries):
+        # omp compacted the context; resume from the last human turn.
+        cursor = next((i for i in range(len(entries) - 1, -1, -1) if is_human_turn(entries[i])), len(entries))
     if cursor >= len(entries):
         return 0
 

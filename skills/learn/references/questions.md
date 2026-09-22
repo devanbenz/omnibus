@@ -2,6 +2,11 @@
 
 Two instruments. Use both, and choose deliberately.
 
+The closed instrument is the harness's question picker: `AskUserQuestion` in
+Claude Code, `ask` in Oh My Pi. Same shape — a batch of questions, each with
+2–4 labelled options plus a free-text "Other". These references say
+`AskUserQuestion`; read that as whichever one your harness gives you.
+
 | | Closed (`AskUserQuestion`) | Open (prose, then stop) |
 |---|---|---|
 | What it measures | *Which* model they are running | *Whether they can produce* the idea |

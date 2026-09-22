@@ -5,7 +5,7 @@ description: Conventions for notes in this learning vault - folder layout, front
 
 # Vault conventions
 
-    Sessions/     one note per learning session, written live by the Stop hook
+    Sessions/     one note per session, written live by the mirror hook
     Concepts/     atomic notes, one idea each - the durable layer
     Sources/      imported texts (papers, posts, chapters) that lessons anchor into
     Attachments/  SVGs and images, embedded with ![[...]]
@@ -96,13 +96,18 @@ Code is not imported — it is anchored in place by path and permalink.
 
 ## Session notes
 
-Frontmatter: `topic`, `date`, `type: learning-session`, `phase`
-(`probe` → `plan` → `teach` → `complete`/`paused`), `tags`.
+Frontmatter: `topic`, `date`, `type`, `phase`, `tags`. Two types:
 
-The conversation body is appended automatically by
-the `mdlog.py` Stop hook on every turn. Do not paste your own messages in.
-Do write the structured artifacts by hand: the probe map table, the mermaid
-DAG, progress ticks, and the closing `## Where we got to`.
+- `learning-session` (`/learn`, `/exercise`, `/link`): `phase` runs
+  `probe` → `plan` → `teach` → `complete`/`paused`.
+- `teaching-session` (`/teach`, the user teaching the model): `phase` runs
+  `lesson` → `complete`.
+
+The conversation body is appended automatically by `mdlog.py` on every turn —
+the Claude Code Stop hook or the omp `session_stop` extension. Do not paste
+your own messages in. Do write the structured artifacts by hand: the probe map
+table, the mermaid DAG, progress ticks, the closing `## Where we got to`, and
+for teaching sessions the `## Debrief`.
 
 ## Spaced repetition
 

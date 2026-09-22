@@ -26,9 +26,10 @@ Cap a session at about 15 notes. More than that and quality collapses.
 ## 2. Quiz
 
 Read each due note, then quiz. Two instruments, per
-`${CLAUDE_PLUGIN_ROOT}/skills/teach/references/questions.md`:
+`${CLAUDE_PLUGIN_ROOT}/skills/learn/references/questions.md`:
 
-- `AskUserQuestion`, batched up to 4 at a time, for the bulk of the session.
+- The question picker (`AskUserQuestion` / `ask`), batched up to 4 at a
+  time, for the bulk of the session.
 - An open question — a `> [!question] Your turn` callout, then the message
   *ends* — for at least a third of the notes, and for every note that has
   failed before. Predict, debug, or teach it back. Recognition is not recall;
@@ -70,5 +71,5 @@ note's frontmatter and appends a line to `Reviews/`.
 
 Report plainly: how many held, which ones did not, and what the misconception
 was in each failure. If a note failed twice, say so and suggest a short
-`/teach` session on it — a note that keeps failing usually means a gap in a
+`/learn` session on it — a note that keeps failing usually means a gap in a
 prerequisite, not a weak memory.

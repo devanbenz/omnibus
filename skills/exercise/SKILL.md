@@ -1,6 +1,6 @@
 ---
 name: exercise
-description: Run one short (10–15 minute) open-response learning exercise on a codebase, a text, or work just done - predict, trace, debug, generate-then-compare, or teach it back - anchored to exact lines and passages and mirrored into the vault. Use when the user wants to test or deepen their understanding of specific code or a specific reference without a full /teach session, or after finishing architectural work.
+description: Run one short (10–15 minute) open-response learning exercise on a codebase, a text, or work just done - predict, trace, debug, generate-then-compare, or teach it back - anchored to exact lines and passages and mirrored into the vault. Use when the user wants to test or deepen their understanding of specific code or a specific reference without a full /learn session, or after finishing architectural work.
 argument-hint: [path | url | topic | "recent"]
 ---
 
@@ -27,7 +27,7 @@ Tell the user the note path in one line.
 Then decide the subject from the argument:
 
 - **A path, repo area, URL or file** → source-bound. Read
-  `${CLAUDE_PLUGIN_ROOT}/skills/teach/references/sources.md` and ingest first.
+  `${CLAUDE_PLUGIN_ROOT}/skills/learn/references/sources.md` and ingest first.
 - **`recent`, or no argument during a coding session** → the work just done in
   this session: new files, schema changes, a refactor, an unfamiliar pattern.
   Pick the decision with the most *why* in it.
@@ -40,7 +40,7 @@ do it — one sentence, no pitch. Do not start until they say yes.
 
 ## 1. Choose the shape
 
-Read `${CLAUDE_PLUGIN_ROOT}/skills/teach/references/questions.md`. Pick one
+Read `${CLAUDE_PLUGIN_ROOT}/skills/learn/references/questions.md`. Pick one
 exercise type by what the subject is:
 
 | Subject | First choice | Second |
@@ -95,7 +95,7 @@ the general principle?* Then one line on what they can now do.
 
 - **Ask once, then respect the answer.** If they decline, no more offers this
   session. If they have done two exercises this session, do not offer a third.
-- **Ten to fifteen minutes.** If they want to go deeper, that is `/teach`.
+- **Ten to fifteen minutes.** If they want to go deeper, that is `/learn`.
 - **No teaching before the first question.** The pre-test is the point: an
   attempt before the explanation, even a wrong one, is what makes the
   explanation stick.
